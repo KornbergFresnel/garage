@@ -5,7 +5,7 @@ services:
       cache_from:
         - rlworkgroup/garage-intel:latest
       context: ../
-      dockerfile: docker/Dockerfile.base
+      dockerfile: Dockerfile.base.18.04
     image: rlworkgroup/garage-base
   garage-intel-no-files:
     build:
