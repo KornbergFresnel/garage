@@ -1,10 +1,9 @@
 """GaussianMLPPolicy."""
-from torch import nn
 
 from garage.torch.policies import Policy
 
 
-class GaussianMLPPolicy(nn.Module, Policy):
+class GaussianMLPPolicy(Policy):
     """
     GaussianMLPPolicy.
 
@@ -20,10 +19,8 @@ class GaussianMLPPolicy(nn.Module, Policy):
     """
 
     def __init__(self, env_spec, module):
-        nn.Module.__init__(self)
-        Policy.__init__(self, env_spec)
-
         self._module = module
+        self.distribution = None
 
     def forward(self, inputs):
         """Forward method."""
@@ -31,5 +28,5 @@ class GaussianMLPPolicy(nn.Module, Policy):
 
     def get_actions(self, observations):
         """Get actions given observations."""
-        dist = self.forward(observations)
-        return dist.rsample().detach().numpy()
+        self.distribution = self.forward(observations)
+        return self.distribution.rsample().detach().numpy()
